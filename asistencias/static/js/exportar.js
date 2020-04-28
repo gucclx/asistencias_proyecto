@@ -14,6 +14,10 @@ for (let i = 0; i < calendarios.length; i++)
 }
 
 $("#continuar_btn").click(() => {
+	if (caja_clases.tags.length <= 0)
+	{
+		return;
+	}
 	mostrar_segmento("#opciones");
 	$("#volver_btn").data("prev", "#inicio");
 });

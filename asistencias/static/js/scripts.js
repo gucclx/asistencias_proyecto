@@ -18,7 +18,7 @@ async function extraer_lista(cat, busqueda)
 
 function input_valido(categoria, input)
 {
-	let persona_nombre_regex = /(.*[^a-z ])/i
+	let persona_nombre_regex = /(.*[^a-z ])/i;
 	input = input.trim();
 
 	if (input == "") return false;
