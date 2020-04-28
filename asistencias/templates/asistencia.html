@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Asistencias
+{% endblock %}
+
+{% block scripts %}
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+	<script src="static/js/scripts.js"></script>
+	<script src="static/js/scrollbtn.js"></script>
+	<link rel="stylesheet" href="static/css/scrollbtn.css"/>
+{% endblock %}
+
+{% block main %}
+	<h2 class="border-bottom">Toma de asistencia</h2>
+	<form action="{{ url_for('asistencia') }}" id="asistencia_form">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.clases.label }}
+			{{ form.clases(id="clases_select", class="form-control", autocomplete="off") }}
+		</div>
+		<div class="form-group">
+			{{ form.carnet.label }}
+			{{ form.carnet(id="carnet_input", class="form-control", placeholder="Ingresar carnet", autocomplete="off", autofocus="true") }}
+		</div>
+	</form>
+	<div class="border-bottom mb-3"></div>
+	<div style="display: none;" id="asistencia_contenedor" class="table-responsive mb-3">
+        <h2 class="text-center">Asistencia de hoy</h2>
+        <table id="asistencia_tabla" class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <th>Alumno</th>
+                <th>Carnet</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Tiempo</th>
+                <th>Acción</th>
+            </thead>
+            <tbody id="asistencia_tbody">
+                
+            </tbody>
+        </table>
+        <div class="border-bottom mb-3"></div>
+    </div>
+    <div style="display: none" id="ningun_alumno" class="mb-3">
+    	<ul class="list-group">
+    		<li class="list-group-item">
+    			Ningún alumno
+    		</li>
+    	</ul>
+    </div>
+    <div style="display: none;" id="spinner">
+        <h4 class="text-center mb-3">Generando...</h4>
+         <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+    	{{ form.submit(id="submit_btn", class="btn btn-outline-primary")}}
+    </div>
+	<button id="scroll_btn" data-target="bottom" class="rounded-circle shadow">
+        <i id="scroll_icon" class="material-icons">arrow_downward</i>
+    </button>
+{% endblock %}
+{% block afterbody %}
+	<script src="static/js/asistencia.js"></script>
+{% endblock %}

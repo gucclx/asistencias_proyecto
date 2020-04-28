@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Eliminar {{ cat }}
+{% endblock %}
+
+{% block scripts %}
+	<script src="static/js/resultsBox.js"></script>
+	 <script src="static/js/scripts.js"></script>
+	<link rel="stylesheet" href="static/css/resultsBox.css">
+{% endblock %}
+
+{% block main %}
+	<h2 class="border-bottom">Eliminar {{ cat }} de una clase</h2>
+	<form action="/eliminar-{{ cat }}-clase">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.persona.label }}
+			{{ form.persona(id="persona_input", class="form-control", autofocus=true,
+				 autocomplete="off") }}
+			<div style="display: none;" id="persona_resultados" 
+				class="search-suggestion"></div>
+		</div>
+		<div class="form-group">
+			{{ form.clase.label}}
+			{{ form.clase(id="clase_input", class="form-control",
+				placeholder="Buscar clase...", autocomplete="off")}}
+			<div style="display: none;" id="clase_resultados" 
+			class="search-suggestion"></div>
+			<div id="tags" class="tag-container" style="display: none">
+				<h5 class="border-bottom ml-2 my-2">Clases del {{ cat }}</h5>
+			</div>
+		</div>
+		{{ form.submit(id="form_btn", class="btn btn-outline-danger") }}
+	</form>
+	<script>
+		config_caja_resultados("{{ cat }}", "#persona_resultados", "#persona_input");
+		let clases_caja = config_caja_resultados("clase", "#clase_resultados", 
+													"#clase_input", "#tags");
+
+		$("#persona_input").prop("placeholder", `Buscar {{ cat }}...`)
+		
+		$("form").submit(e => {
+			e.preventDefault();
+			let info = {
+				form : $(e.target).serialize(),
+				url : $(e.target).prop("action"),
+				csrf : "{{ csrf_token() }}",
+				extra_data : "&clases=" + JSON.stringify(clases_caja.tags)
+			}
+			enviar_form(info);
+		});
+	</script>
+
+{% endblock %}

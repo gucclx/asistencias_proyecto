@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Lista de asistencia
+{% endblock %}
+
+{% block scripts %}
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="static/js/datepicker-es.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"></link>
+    <script src="static/js/scripts.js"></script>
+    <script src="static/js/scrollbtn.js"></script>
+    <link rel="stylesheet" href="static/css/scrollbtn.css"/>
+{% endblock %}
+
+{% block main %}
+    <div id="inicio">
+        <h2 class="border-bottom mb-2">Lista de asistencia</h2>
+        <div class="form-group">
+            <label>Seleccionar clase:</label>
+            <select id="clases_select" class="form-control">
+                {% if clases %}
+                    {% for clase in clases %}
+                        <option value="{{ clase['id'] }}">
+                            {{ clase["nombre"] }}
+                        </option>
+                    {% endfor %}
+                {% else %}
+                    <option value="">Ninguna clase</option>
+                {% endif %}
+            </select>
+        </div>
+        <div>
+            <div class="border-bottom mb-3"></div>
+            <div class="form-group">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div class="pretty p-default p-curve">
+                        <input type="radio" data-periodo="hoy" name="color"/>
+                        <div class="state p-primary-o">
+                            <label>Hoy</label>
+                        </div>
+                    </div>
+                    <div class="pretty p-default p-curve">
+                        <input type="radio" data-periodo="ultimo_dia" name="color"/>
+                        <div class="state p-primary-o">
+                            <label>Último día</label>
+                        </div>
+                    </div>
+                    <div class="pretty p-default p-curve">
+                        <input type="radio" data-periodo="ultima_semana" name="color"/>
+                        <div class="state p-primary-o">
+                            <label>Última semana</label>
+                        </div>
+                    </div>
+                    <div class="pretty p-default p-curve">
+                        <input type="radio" data-periodo="ultimo_mes" name="color"/>
+                        <div class="state p-primary-o">
+                            <label>Último mes</label>
+                        </div>
+                    </div>
+                    <div class="pretty p-default p-curve">
+                        <input type="radio" data-periodo="rango" name="color"/>
+                        <div class="state p-primary-o">
+                            <label>Rango de fechas</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="opciones_rango" class="form-group overflow-auto" style="display: none">
+        <div class="d-flex justify-content-around">
+            <div>
+                <h4 class="border-bottom">Desde:</h4>
+                <div class="shadow">
+                    <div id="f1"></div>
+                    <input type="hidden" id="fecha_inicial">
+                </div>
+            </div>
+            <div>
+                <h4 class="border-bottom">Hasta:</h4>
+                <div class="shadow">
+                    <div id="f2"></div>
+                    <input type="hidden" id="fecha_final">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display: none;" id="asistencia_div" class="table-responsive">
+        <h2 class="text-center">Reporte de asistencia</h2>
+        <table id="asistencia_tabla" class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <th>Alumno</th>
+                <th>Carnet</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Tiempo</th>
+            </thead>
+            <tbody id="asistencia_tbody">
+                
+            </tbody>
+        </table>
+    </div>
+    <div style="display: none" id="ningun_resultado" class="form-group">
+        <ul class="list-group">
+            <li class="list-group-item">
+                Ningún resultado
+            </li>
+        </ul>
+    </div>
+    <div style="display: none;" id="spinner">
+        <h4 class="text-center mb-3">Generando...</h4>
+         <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="border-bottom mb-3"></div>
+    <div id="botones" class="d-flex justify-content-between">
+        <button id="evaluar_btn" class="btn btn-outline-primary">Generar lista</button>
+        <button id="rangos_btn" class="btn btn-outline-primary" style="display: none">
+            Generar lista</button>
+        <button id="volver_btn" class="btn btn-outline-primary" style="display: none">
+            Volver</button>
+        <button id="excel_btn" class="btn btn-outline-primary" style="display: none">
+            Exportar a Excel</button>
+    </div>
+    <button id="scroll_btn" data-target="bottom" class="rounded-circle shadow">
+        <i id="scroll_icon" class="material-icons">arrow_downward</i>
+    </button>
+{% endblock %}
+{% block afterbody %}
+    <script src="static/js/asistenciaLista.js"></script>
+{% endblock %}

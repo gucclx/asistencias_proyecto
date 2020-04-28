@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Registrar clase
+{% endblock %}
+
+{% block scripts %}
+	<script src="static/js/resultsBox.js"></script>
+	<script src="static/js/scripts.js"></script>
+	<link rel="stylesheet" href="static/css/resultsBox.css">
+{% endblock %}
+
+{% block main %}
+	<h2 class="border-bottom">Registro de clases</h2>
+	<form action="{{ url_for('registrar_clase') }}" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.nombre.label}}
+			{% if form.nombre.errors %}
+			{{ form.nombre(autofocus=true, class="form-control is-invalid",
+				 placeholder="Ingresar nombre", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.nombre.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.nombre(autofocus=true, class="form-control", 
+					placeholder="Ingresar nombre", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.profesor.label}}
+			{% if form.profesor.errors %}
+			{{ form.profesor(id="profesor_input", 
+				class="form-control is-invalid", placeholder="Buscar profesor...", 
+					autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.profesor.errors %}
+					<span>{{ error }}</span>
+				{% endfor %}
+			</div>
+			<div id="resultados_prof" class="search-suggestion" style="display: none"></div>
+			{% else %}
+				{{ form.profesor(id="profesor_input", class="form-control", placeholder="Buscar profesor...", autocomplete="off") }}
+				<div id="resultados_prof" class="search-suggestion" style="display: none"></div>
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.submit(class="btn btn-outline-primary") }}
+		</div>
+	</form>
+	<script>
+		config_caja_resultados("profesor", "#resultados_prof", "#profesor_input");
+	</script>
+{% endblock %}

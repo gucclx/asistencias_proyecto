@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block main %}
+<h2 class="border-bottom">{{ title }}</h2>
+<ul class="list-group">
+	{% if clases %}
+		{% for clase in clases %}
+			<li class="text-break shadow border rounded list-group-item list-group-item-action 
+			 								d-flex justify-content-between align-items-center">
+			 	{{ clase.nombre }}
+				<span class="badge badge-info badge-pill">
+					<a href="{{ url_for('clase_detalle') }}?clase_id={{ clase.id }}" 
+						style="color: white" class="text-decoration-none">Ver detalles</a>
+				</span>
+			</li>
+		{% endfor %}
+	{% else %}
+		<li class="list-group-item d-flex justify-content-between align-items-center">
+			Ningúna clase 
+			{% if session.admin %}
+				<span class="badge badge-info badge-pill">
+					<a href="{{ url_for('registrar_clase') }}" style="color: white" class="text-decoration-none">Registrar clase</a>
+				</span>
+			{% endif %}
+		</li>
+	{% endif %}
+</ul>
+{% endblock %}

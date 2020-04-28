@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	{% block scripts %}
+	{% endblock %}
+	{% block styles %}
+	{% endblock %}
+	<title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+	<div class="wrapper">
+		{% if session.user_id %}
+			<div class="sidebar">
+				<div class="sidebar-header">
+					<h2>Menú</h2>
+				</div>
+				<ul class="list-unstyled components">
+					<li class="active">
+						<a href="#asistencia" data-toggle="collapse" class="dropdown-toggle">Asistencia</a>
+						<ul class="list-unstyled collapse" id="asistencia">
+							<li>
+								<a href="{{url_for('asistencia')}}">Tomar asistencia</a>
+							</li>
+							<li>
+								<a href="{{url_for('asistencia_lista')}}">Lista de asistencia</a>
+							</li>
+						</ul>
+						<a href="#exportar" data-toggle="collapse" class="dropdown-toggle">Exportar</a>
+						<ul class="list-unstyled collapse" id="exportar">
+							<li>
+								<a href="{{url_for('exportar')}}">Asistencia (Excel)</a>
+							</li>
+						</ul>
+						<a href="#registrar" data-toggle="collapse" class="dropdown-toggle">Registrar</a>
+						<ul class="list-unstyled collapse" id="registrar">
+							<li>
+								<a href="{{url_for('registrar_alumno')}}">Alumno</a>
+							</li>
+							{% if session.admin %}
+								<li>
+									<a href="{{url_for('registrar_clase')}}">Clases</a>
+								</li>
+								<li>
+									<a href="{{url_for('r-prof')}}">Profesor</a>
+									<a href="{{url_for('r-admin')}}">Administrador</a>
+								</li>
+							{% endif %}
+						</ul>
+						<a href="#clases" data-toggle="collapse" class="dropdown-toggle">Clases</a>
+						<ul class="list-unstyled collapse" id="clases">
+							{% if session.admin %}
+								<li>
+									<a href="{{url_for('listas-clase')}}">Lista de clases</a>
+								</li>
+							{% endif %}
+							<li>
+								<a href="{{url_for('mis-clases')}}">Mis clases</a>
+							</li>
+						</ul>
+						<a href="#agregar" data-toggle="collapse" class="dropdown-toggle">Agregar</a>
+						<ul class="list-unstyled collapse" id="agregar">
+							<li>
+								<a href="{{url_for('a-alumno')}}">Alumno a clase</a>
+							</li>
+							{% if session.admin %}
+								<li>
+									<a href="{{url_for('a-profesor')}}">Profesor a clase</a>
+								</li>
+							{% endif %}
+						</ul>
+						<a href="#reemplazar" data-toggle="collapse" class="dropdown-toggle">Reemplazar</a>
+						<ul class="list-unstyled collapse" id="reemplazar">
+							<li>
+								<a href="{{url_for('reemplazar_nombre_clase')}}">Nombre (clase)</a>
+							</li>
+							{% if session.admin %}
+								<li>
+									<a href="{{url_for('reemplazar_prof')}}">Reemplazar profesor</a>
+								</li>
+							{% endif %}
+						</ul>
+						<a href="#eliminar" data-toggle="collapse" class="dropdown-toggle">Eliminar</a>
+						<ul class="list-unstyled collapse" id="eliminar">
+							<li>
+								<a href="{{url_for('e-alumno')}}">Alumno de clase</a>
+							</li>
+							{% if session.admin %}
+								<li>
+									<a href="{{url_for('e-profesor')}}">Profesor de clase</a>
+								</li>
+								<li>
+									<a href="{{url_for('eliminar_entrada')}}">Entrada</a>
+								</li>
+							{% endif %}
+						</ul>
+					</li>
+				</ul>
+			</div>
+		{% endif %}
+		<div id="content">
+			{% if session.user_id %}
+				<nav class="navbar navbar-expand-sm navbar-light bg-light shadow-sm rounded">
+					<div class="container-fluid">
+						<button id="sidebarCollapse" class="btn">
+			                <span class="navbar-toggler-icon"></span>
+			            </button>
+			            <div class="collapse navbar-collapse">
+			            	<ul class="nav navbar-nav ml-auto">
+			            		<a class="nav-link active" href="{{ url_for('index')}}" 
+										role="button">Inicio</a>
+								<a class="nav-link dropdown-toggle active" href="#" 
+										role="button" data-toggle="dropdown">Mi cuenta</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="{{ url_for('administrar') }}">
+										Administrar</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="{{'logout'}}">
+										Salir</a>
+								</div>
+							</ul>
+			            </div>
+		        	</div>
+				</nav>
+			{% endif %}
+			{% with mensajes = get_flashed_messages(with_categories=true) %}
+				{% if mensajes %}
+					<header>
+						{% for cat, mensaje in mensajes %}
+							<div style="margin-bottom: 0;" class="alert alert-{{ cat }} text-center text-break">
+								{{ mensaje }}
+							</div>
+						{% endfor %}
+					</header>
+				{% endif %}
+			{% endwith %}
+			<main class="main bg-light rounded shadow">
+				<div style="width: 90%; margin: auto;">
+					{% block main %}
+
+					{% endblock %}
+				</div>
+			</main>
+		</div>
+	</div>
+</body>
+{% block afterbody %}
+{% endblock %}
+<script>
+    $("#sidebarCollapse").on("click", () => {
+        $(".sidebar").toggleClass("active");
+    });
+</script>
+</html>

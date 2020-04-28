@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Eliminar alumno
+{% endblock %}
+
+{% block scripts %}
+	<script src="static/js/resultsBox.js"></script>
+	<script src="static/js/scripts.js"></script>
+	<link rel="stylesheet" href="static/css/resultsBox.css">
+{% endblock %}
+{% block main %}
+	<h2 class="pb-2">Eliminar entrada</h2>
+	<form action="{{ url_for('eliminar_entrada') }}" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.categoria.label }}
+			{{ form.categoria(id="categoria", class="form-control", autocomplete="off") }}
+		</div>
+		<div class="form-group">
+			{% if form.errors %}
+				{{ form.nombre(autofocus=true, id="entrada_input", class="form-control is-invalid", 
+					placeholder="Buscar alumno...", autocomplete="off") }}
+				<div style="display: none;" id="entrada_resultados"
+					class="search-suggestion"></div>
+				<div class="invalid-feedback">
+				{% for error in form.nombre.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.nombre.label(id="entrada_label") }}
+				{{ form.nombre(id="entrada_input", class="form-control",
+					autofocus=true, placeholder="Buscar alumno...", autocomplete="off")}}
+				<div style="display: none;" id="entrada_resultados"
+					class="search-suggestion"></div>
+			{% endif %}
+		</div>
+		{{ form.submit(class="btn btn-outline-danger ")}}
+	</form>
+<script>
+
+	let cat = $("#categoria").val();
+	config_caja_resultados(cat, "#entrada_resultados", "#entrada_input");
+
+    $("#categoria").change(e => {
+    	cat = e.target.value;
+    	if (cat == "clase")
+    	{
+    		$("#entrada_label").html("Nombre de la clase:");
+    	}
+    	else
+    	{
+    		$("#entrada_label").html(`Nombre del ${cat}:`);
+    	}
+    	let ph = `Buscar ${cat}...`;
+    	$("#entrada_input").attr("placeholder", ph);
+    	$("#entrada_input").focus();
+    	config_caja_resultados(cat, "#entrada_resultados", "#entrada_input");
+    });
+</script>
+{% endblock %}

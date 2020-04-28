@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Exportar asistencia
+{% endblock %}
+
+{% block scripts %}
+	<script src="static/js/scripts.js"></script>
+	<script src="static/js/resultsBox.js"></script>
+	<link rel="stylesheet" href="static/css/resultsBox.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="static/js/datepicker-es.js"></script>
+{% endblock %}
+
+{% block main %}
+	<div id="inicio">
+		<h2 class="border-bottom">Exportar asistencia a Excel</h2>
+		<div class="form-group">
+			<label>Seleccione una o más clases:</label>
+			<input id="clase_input" class="form-control" placeholder="Buscar clase..." autofocus autocomplete="false">
+			<div id="clase_resultados" class="search-suggestion" style="display: none"></div>
+			<div id="tags" class="tag-container" style="display: none">
+				<h5 class="border-bottom ml-2 my-2">Clases</h5>
+			</div>
+		</div>
+	</div>
+	<div id="opciones" style="display: none">
+		<h2 class="text-center border-bottom mb-3">Seleccione una opción</h2>
+		<div class="card border-primary">
+			<div class="card-header">Hoy</div>
+			<div class="card-body">
+				<p class="card-text">
+					Exportar la asistencia de hoy de las clases seleccionadas.
+				</p>
+				<button class="btn btn-outline-primary exportar-btn" data-periodo="hoy">
+					Exportar
+				</button>
+			</div>
+		</div>
+		<div class="border-bottom my-3"></div>
+		<div class="card border-primary">
+			<div class="card-header">Último día</div>
+			<div class="card-body">
+				<p class="card-text">
+					Exportar la asistencia del último día guardado para cada clase seleccionada.
+				</p>
+				<button class="btn btn-outline-primary exportar-btn" data-periodo="ultimo_dia">
+					Exportar
+				</button>
+			</div>
+		</div>
+		<div class="border-bottom my-3"></div>
+		<div class="card border-primary">
+			<div class="card-header">Última semana</div>
+			<div class="card-body">
+				<p class="card-text">
+					Exportar la asistencia de la última semana para cada clase seleccionada.
+				</p>
+				<button class="btn btn-outline-primary exportar-btn" data-periodo="ultima_semana">
+					Exportar
+				</button>
+			</div>
+		</div>
+		<div class="border-bottom my-3"></div>
+		<div class="card border-primary">
+			<div class="card-header">Último mes</div>
+			<div class="card-body">
+				<p class="card-text">
+					Exportar la asistencia del último mes de las clases seleccionadas.
+				</p>
+				<button class="btn btn-outline-primary exportar-btn" data-periodo="ultimo_mes">
+					Exportar
+				</button>
+			</div>
+		</div>
+		<div class="border-bottom my-3"></div>
+		<div class="card border-primary">
+			<div class="card-header">Rango de fechas</div>
+			<div class="card-body">
+				<p class="card-text">
+					Seleccionar un rango de fechas y exportar la asistencia de las clases seleccionadas.
+				</p>
+				<button id="mostrar_rangos_btn" class="btn btn-outline-primary">
+					Mostrar rangos</butotn>
+			</div>
+		</div>
+	</div>
+	<div id="fecha_rangos" class="form-group overflow-auto" style="display: none">
+		<div class="d-flex justify-content-around">
+			<div>
+				<h4 class="border-bottom">Desde:</h4>
+				<div class="shadow">
+					<div id="f1"></div>
+					<input type="hidden" id="fecha_inicial">
+				</div>
+			</div>
+			<div>
+				<h4 class="border-bottom">Hasta:</h4>
+				<div class="shadow">
+					<div id="f2"></div>
+					<input type="hidden" id="fecha_final">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="display: none;" id="spinner">
+        <h4 class="text-center mb-3">Generando...</h4>
+         <div class="d-flex justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+	<div class="border-bottom mb-3"></div>
+	<div id="botones" class="form-group d-flex justify-content-between">
+		<button class="btn btn-outline-primary" id="continuar_btn">Continuar</button>
+		<button class="btn btn-outline-primary exportar-btn" id="rangos_btn" data-periodo="rango" style="display: none">Exportar</button>
+		<button class="btn btn-outline-primary" id="volver_btn"style="display: none">Volver</button>
+	</div>
+{% endblock %}
+
+{% block afterbody %}
+	<script src="static/js/exportar.js"></script>
+{% endblock %}

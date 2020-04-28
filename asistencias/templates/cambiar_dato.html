@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Cambiar {{ cat }}
+{% endblock %}
+
+{% block main %}
+<h2 class="border-bottom">Cambiar {{ cat }}</h2>
+<form action="{{ endpoint }}" method="POST">
+	{{ form.hidden_tag() }}
+	{% if cat != "contraseña" %}
+		<div class="form-group">
+			{{ form.dato_nuevo.label }}
+			{% if form.dato_nuevo.errors %}
+				{{ form.dato_nuevo(autofocus=true, id="dato_nuevo_input", class="form-control is-invalid", autocomplete="off") }}
+				<div class="invalid-feedback">
+					{% for error in form.dato_nuevo.errors %}
+						<span style="display: block;">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.dato_nuevo(autofocus=true, id="dato_nuevo_input", class="form-control", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.pswd.label }}
+			{% if form.pswd.errors %}
+				{{ form.pswd(class="form-control is-invalid", placeholder="Ingresar contraseña", autocomplete="off") }}
+				<div class="invalid-feedback">
+					{% for error in form.pswd.errors %}
+						<span style="display: block;">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.pswd(class="form-control", placeholder="Ingresar contraseña",
+					 autocomplete="off") }}
+			{% endif %}
+		</div>
+	{% else %}
+		<div class="form-group">
+			{{ form.pswd.label }}
+			{{ form.pswd(autofocus=true, class="form-control", placeholder="Actual contraseña", autocomplete="off") }}
+		</div>
+		<div class="form-group">
+			{{ form.nueva_pswd.label }}
+			{% if form.nueva_pswd.errors %}
+				{{ form.nueva_pswd(class="form-control is-invalid", placeholder="Nueva contraseña", autocomplete="off") }}
+				<div class="invalid-feedback">
+					{% for error in form.nueva_pswd.errors %}
+						<span style="display: block;">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.nueva_pswd(class="form-control", placeholder="Nueva contraseña",
+					 autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.repetir.label }}
+			{% if form.repetir.errors %}
+				{{ form.repetir(class="form-control is-invalid", placeholder="Repetir contraseña", autocomplete="off") }}
+				<div class="invalid-feedback">
+					{% for error in form.repetir.errors %}
+						<span style="display: block;">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				{{ form.repetir(class="form-control", placeholder="Repetir contraseña",
+					autocomplete="off") }}
+			{% endif %}
+		</div>
+	{% endif %}
+	
+	<div class="form-group">
+		{{ form.submit(class="btn btn-outline-info") }}
+	</div>
+</form>
+<script>
+	$("#dato_nuevo_input").prop("placeholder", "Ingresar {{ cat }}");
+</script>
+{% endblock %}

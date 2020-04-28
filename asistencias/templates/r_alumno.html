@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Registrar alumno
+{% endblock %}
+
+{% block styles %}
+	<link rel="stylesheet" href="static/css/resultsBox.css">
+{% endblock %}
+
+{% block scripts %}
+	<script src="static/js/scripts.js"></script>
+	<script src="static/js/resultsBox.js"></script>
+{% endblock %}
+
+{% block main %}
+<h2 class="border-bottom">Registro de alumnos</h2>
+<form action="{{ url_for('registrar_alumno') }}" method="POST">
+	{{ form.hidden_tag() }}
+	<div class="form-group">
+		{{ form.nombre.label }}
+		{% if form.nombre.errors %}
+			{{ form.nombre(autofocus=true, class="form-control is-invalid", placeholder="Ingresar nombre", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.nombre.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+		{% else %}
+			{{ form.nombre(autofocus=true, class="form-control", 
+				placeholder="Ingresar nombre", autocomplete="off") }}
+		{% endif %}
+	</div>
+	<div class="form-group">
+		{{ form.carnet.label }}
+		{% if form.carnet.errors %}
+			{{ form.carnet(class="form-control is-invalid", placeholder="Ingresar carnet", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.carnet.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+		{% else %}
+			{{ form.carnet(class="form-control", placeholder="Ingresar carnet", autocomplete="off") }}
+		{% endif %}
+	</div>
+	<div class="form-group">
+		{{ form.clases_field.label }}
+		{{ form.clases_field(id="clase_input", class="form-control", placeholder="Buscar clase...")}}
+		<div style="display: none;" id="clase_resultados" class="search-suggestion">
+		</div>
+		<div id="tags" class="tag-container" style="display: none">
+			<h5 class="border-bottom ml-2 my-2">Clases del alumno</h5>
+		</div>
+	</div>	
+	<div class="form-group">
+		{{ form.submit(class="btn btn-outline-primary") }}
+	</div>
+</form>
+<script>
+	let caja_clases = config_caja_resultados("clase", "#clase_resultados", 
+												"#clase_input", "#tags");
+	$("form").submit(e => {
+			e.preventDefault();
+			let info = {
+				form : $(e.target).serialize(),
+				url : $(e.target).prop("action"),
+				csrf : "{{ csrf_token() }}",
+				extra_data : "&clases=" + JSON.stringify(caja_clases.tags)
+			}
+			enviar_form(info);
+		});
+</script>
+{% endblock %}

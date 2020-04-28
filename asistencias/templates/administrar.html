@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Mi cuenta
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block main %}
+	<div class="container mb-3">
+		<h2>Cuenta</h2>
+		<div class="border px-3 pt-3">
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Nombre</strong>
+					<a href="{{ url_for('cambiar-nombre') }}" class="text-decoration-none">
+						Cambiar</a>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">{{ info.nombre }}</span>
+			</div>
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Usuario</strong>
+					<a href="{{ url_for('cambiar-usuario') }}" class="text-decoration-none">
+						Cambiar</a>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">{{ info.usuario }}</span>
+			</div>
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Contraseña</strong>
+					<a href="{{ url_for('cambiar-pswd') }}" class="text-decoration-none">
+						Cambiar</a>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">***</span>
+			</div>
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Administrador</strong>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">
+					{% if info.es_admin %}
+						Sí
+					{% else %}
+						No
+					{% endif %}
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="container mb-3">
+		<h2>Información adicional</h2>
+		<div class="border px-3 pt-3">
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Clases totales</strong>
+					<a href="/mis-clases" class="text-decoration-none">
+						Ver mis clases</a>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">{{ info.clases_total }}</span>
+			</div>
+			<div class="mb-2">
+				<div class="d-flex justify-content-between">
+					<strong>Alumnos totales</strong>
+				</div>
+				<div class="border-bottom"></div>
+				<span class="text-muted">{{ info.alumnos_total }}</span>
+			</div>
+		</div>
+	</div>
+{% endblock %}

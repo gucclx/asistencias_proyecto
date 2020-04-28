@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Registrar {{ info.cat }}
+{% endblock %}
+
+{% block main %}
+	<h2 class="border-bottom">Registro de {{ info.titulo }}</h2>
+	<form action="{{ info.endpoint }}" method="POST">
+		{{ form.hidden_tag() }}
+		<div class="form-group">
+			{{ form.nombre.label}}
+			{% if form.nombre.errors %}
+			{{ form.nombre(autofocus=true, class="form-control is-invalid",
+				 placeholder="Ingresar nombre", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.nombre.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.nombre(autofocus=true, class="form-control", placeholder="Ingresar nombre", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.usuario.label}}
+			{% if form.usuario.errors %}
+			{{ form.usuario(autofocus=true, class="form-control is-invalid",
+				 placeholder="Ingresar usuario", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.usuario.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.usuario(autofocus=true, class="form-control", 
+					placeholder="Ingresar usuario", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.pswd.label}}
+			{% if form.pswd.errors %}
+			{{ form.pswd(autofocus=true, class="form-control is-invalid",
+				 placeholder="Ingresar contraseña", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.pswd.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.pswd(autofocus=true, class="form-control", 
+					placeholder="Ingresar contraseña", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<div class="form-group">
+			{{ form.pswd_confirmar.label}}
+			{% if form.pswd_confirmar.errors %}
+			{{ form.pswd_confirmar(autofocus=true, class="form-control is-invalid",
+				 placeholder="Confirmar contraseña", autocomplete="off") }}
+			<div class="invalid-feedback">
+				{% for error in form.pswd_confirmar.errors %}
+					<span style="display: block;">{{ error }}</span>
+				{% endfor %}
+			</div>
+			{% else %}
+				{{ form.pswd_confirmar(autofocus=true, class="form-control", 
+					placeholder="Confirmar contraseña", autocomplete="off") }}
+			{% endif %}
+		</div>
+		<hr class="my-4">
+		{% if info.cat == "profesor" %}
+			<h5>Los profesores pueden:<h5>
+			<ul class="list-group small">
+				<li class="list-group-item">Registrar alumnos.</li>
+				<li class="list-group-item">Agregar un alumno a una clase, si esta le pertenece.</li>
+				<li class="list-group-item">Reemplazar el nombre de una clase, si esta le pertenece.</li>
+				<li class="list-group-item">Eliminar un alumno de una clase, si esta le pertenece.</li>
+				<li class="list-group-item">Tomar, ver y exportar la asistencia de una clase, si esta le pertenece.</li>
+				<li class="list-group-item">Ver la lista de sus clases.</li>
+			</ul>
+		{% elif info.cat == "administrador" %}
+			<h5>Los administradores pueden:<h5>
+			<ul class="list-group small">
+				<li class="list-group-item">Registrar y eliminar clases, alumnos, profesores y administradores.</li>
+				<li class="list-group-item">Agregar un alumno a cualquier clase.</li>
+				<li class="list-group-item">Agregar un profesor a cualquier clase.</li>
+				<li class="list-group-item">Reemplazar el profesor de cualquier clase.</li>
+				<li class="list-group-item">Reemplazar el nombre de cualquier clase.</li>
+				<li class="list-group-item">Eliminar un alumno de cualquier clase.</li>
+				<li class="list-group-item">Eliminar un profesor de cualquier clase.</li>
+				<li class="list-group-item">Tomar, ver y exportar la asistencia de cualquier clase.</li>
+				<li class="list-group-item">Ver la lista de todas las clases.</li>
+			</ul>
+		{% endif %}
+		<hr class="my-4">
+		{% if info.cat == "profesor" %}
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-primary")}}
+			</div>
+		{% else %}
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-warning")}}
+			</div>
+		{% endif %}
+	</form>
+{% endblock %}

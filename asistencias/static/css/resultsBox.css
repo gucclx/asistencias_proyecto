@@ -1,0 +1,51 @@
+/*decora la caja de resultados y los tags*/
+
+/*caja de resultados*/
+.search-suggestion {
+	margin-top:5px;
+	border: 1px solid #c2c5cc;
+	border-radius: 5px;
+	background-color: #FFFF
+}
+
+/*resultados*/
+.search-suggestion div {
+	cursor: pointer;
+	padding: 5px;
+	word-wrap: break-word;
+	transition: 0.2s;
+}
+
+.search-suggestion div:hover {
+	/*background-color: #d3d3d3;*/
+	background-color: #0080ff;
+	color: #FFFF;
+}
+
+/*contenedor de tags*/
+.tag-container {
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+/*tags*/
+.tag-container .tag {
+	/*background-color:#007BFF;*/
+	background-color: #0080ff;
+	color: #FFFF;
+	padding: 5px;
+	border: 1px solid white;
+	border-radius: 5px;
+	margin : 2px;
+	word-wrap: break-word;
+}
+
+.tag-container input {
+	padding: 6px 12px;
+	/*flex: 1;*/
+	width: 100%;
+	outline: none;
+	border: 0px;
+	border-radius: 5px
+}

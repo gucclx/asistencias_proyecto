@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}
+	Entrar
+{% endblock %}
+
+{% block main %}
+	<form action="/login" method="POST">
+		{{ form.hidden_tag() }}
+		<h2 class="border-bottom">Acceda a su cuenta</h2>
+		<div class="form-group">
+			{{ form.usuario.label }}
+			{{ form.usuario(class="form-control", placeholder="Ingresar usuario", 
+				autocomplete="off") }}
+		</div>
+		<div class="form-group">
+			{{ form.pswd.label }}
+			{{ form.pswd(class="form-control", placeholder="Ingresar contraseña", autocomplete="off") }}
+		</div>
+		{{ form.submit(class="btn btn-outline-primary")}}
+	</form>
+{% endblock %}
