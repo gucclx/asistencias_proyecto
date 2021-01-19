@@ -1,9 +1,13 @@
-from flask import (request, render_template, 
-					redirect, flash, url_for)
+from flask import flash
+from flask import request
+from flask import render_template
+from flask import redirect
+from flask import url_for
 
-from asistencias.helpers import *
 from asistencias.forms import AlumnoForm
 from asistencias import app
+from asistencias.helpers import *
+
 import json
 
 # pagina registrar alumno

@@ -3,6 +3,7 @@
 $(function (){
     $("#scroll_btn").click(() => {
 
+        // invertir direccion
         let scrollTop;
         let target = $("#scroll_btn").data("target");
         switch (target)
@@ -19,10 +20,13 @@ $(function (){
                 $("#scroll_btn").data("target", "top");
             break;
         }
+        // desplazar hacia la direccion
         document.documentElement.scrollTo(0, scrollTop);
     });
 
     $(document).on("scroll", e => {
+
+        // calcular direccion cuando el usuario se desplace por la pagina
 
         let scrolled = document.body.scrollTop || document.documentElement.scrollTop;
 

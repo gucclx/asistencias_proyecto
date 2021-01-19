@@ -1,18 +1,19 @@
 from asistencias.helpers import db_ejecutar
 from datetime import datetime
+import time
 
 def asistencia_desde_periodo(periodo, clases_id):
 
-	"""genera y retorna la asistencia de las clases especificadas
+	"""Genera y retorna la asistencia de las clases especificadas
 		a partir del periodo especificado.
 
 		args:
 
-		periodo -- string. periodo deseado. periodos implementados: hoy, ultima_semana, ultimo_mes,
-					ultimo_dia. Este ultimo representa el ultimo dia 
-					que la asistencia de cada clase fue guardada.
+		periodo -- String. Periodo deseado. Periodos implementados: hoy, ultima_semana, ultimo_mes,
+								ultimo_dia. Este ultimo representa el ultimo dia 
+								que la asistencia de cada clase fue guardada.
 
-		clases_id -- lista de ids (enteros) de cada clase
+		clases_id -- Lista de ids (enteros) de cada clase.
 	"""
 
 	fecha_inicial = 0
@@ -45,6 +46,8 @@ def asistencia_desde_periodo(periodo, clases_id):
 	if periodo != "ultimo_dia":
 		return asistencia_desde_rango(fecha_inicial, fecha_final, clases_id)
 
+
+	# conseguir ultima fecha de cada clase
 	ultimas_fechas = []
 	tmp = []
 
@@ -61,12 +64,9 @@ def asistencia_desde_periodo(periodo, clases_id):
 	# solo las clases que tengan algun registro de asistencia
 	clases_id = tmp
 
+	# conseguir asistencia de cada fecha
 	clases_asistencia = []
-	for i in range(len(clases_id)):
-
-		fecha = ultimas_fechas[i]
-		clase_id = clases_id[i]
-
+	for fecha, clase_id in zip(ultimas_fechas, clases_id):
 		asistencia = db_ejecutar("""
 						SELECT Alumnos.nombre, Alumnos.carnet, Asistencias.presente, 
 										date(Asistencias.fecha, 'unixepoch') as fecha, 
@@ -83,15 +83,14 @@ def asistencia_desde_periodo(periodo, clases_id):
 
 def asistencia_desde_rango(t1_unix, t2_unix, clases_id):
 
-	"""regresa la asistencia guardada dentro del rango de tiempo especificado,
-		de las clases especificadas
+	"""Retorna la asistencia guardada dentro del rango de tiempo especificado,
+		de las clases especificadas.
 
 		args:
 
-		t1_unix -- entero. representa le fecha inicial en tiempo unix.
-		t2_unix -- entero, representa la fecha final en tiempo unix.
+		t1_unix -- Entero. Representa le fecha inicial en tiempo unix.
+		t2_unix -- Entero. Representa la fecha final en tiempo unix.
 		clases_id -- lista de ids (enteros) de las clases.
-
 	"""
 
 	clases_asistencia = []
@@ -114,28 +113,22 @@ def asistencia_desde_rango(t1_unix, t2_unix, clases_id):
 
 def fechas_a_unix(f1, f2):
 
-	"""regresa una lista de tiempos unix
+	"""Retorna una lista de tiempos unix.
 
 		args:
 
-		f1 -- string en formato YYYY-MM-DD
-		f2 -- string en formato YYYY-MM-DD
-
-		
+		f1 -- String en formato YYYY-MM-DD
+		f2 -- String en formato YYYY-MM-DD
 	"""
 
-	tiempos_unix = []
 	try:
 		if not isinstance(f1, str) or not isinstance(f2, str):
 			raise TypeError
-
-		t1_unix = datetime.strptime(f1, "%Y-%m-%d").timestamp()
-		t2_unix = datetime.strptime(f2, "%Y-%m-%d").timestamp()
-
-		tiempos_unix.append(t1_unix)
-		tiempos_unix.append(t2_unix)
-		return tiempos_unix
+		
+		t1_unix = datetime.strptime(f1, "%Y-%m-%d").timestamp() - time.timezone
+		t2_unix = datetime.strptime(f2, "%Y-%m-%d").timestamp() - time.timezone
+		return t1_unix, t2_unix
 
 	except (TypeError, ValueError) as e:
-		return tiempos_unix
-
+		print(e)
+		return None

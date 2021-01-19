@@ -77,6 +77,7 @@ async function cargar_alumnos(clase_id)
 	{
 		$("#asistencia_contenedor").hide();
 		$("#ningun_alumno").fadeIn("fast");
+		$("#spinner").hide();
 		return;
 	}
 

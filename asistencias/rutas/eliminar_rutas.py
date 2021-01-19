@@ -1,8 +1,15 @@
-from flask import (request, render_template, 
-					redirect, session, flash, url_for)
-from asistencias.forms import EliminarEntradaForm, ClasePersonaForm
+from flask import flash
+from flask import request
+from flask import render_template
+from flask import redirect
+from flask import session
+from flask import url_for
+
+from asistencias.forms import EliminarEntradaForm
+from asistencias.forms import ClasePersonaForm
 from asistencias.helpers import *
 from asistencias import app
+
 import json
 
 # pagina eliminar entrada (profesor, alumno, etc)

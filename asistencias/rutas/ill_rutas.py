@@ -1,5 +1,10 @@
-from flask import (request, render_template, 
-					redirect, session, flash, url_for)
+from flask import flash
+from flask import request
+from flask import render_template
+from flask import redirect
+from flask import session
+from flask import url_for
+
 from werkzeug.security import check_password_hash
 from asistencias.forms import LoginForm
 from asistencias.helpers import *

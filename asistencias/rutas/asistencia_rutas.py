@@ -1,9 +1,16 @@
-from flask import (request, render_template, 
-					redirect, session, flash, url_for, make_response)
-from asistencias.helpers import *
+from flask import flash
+from flask import make_response
+from flask import request
+from flask import render_template
+from flask import redirect
+from flask import session
+from flask import url_for
+
 from asistencias.helpers_asistencia import asistencia_desde_periodo
+from asistencias.helpers import *
 from asistencias.forms import AsistenciaForm
 from asistencias import app
+
 from datetime import datetime
 import time
 import json

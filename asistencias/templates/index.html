@@ -9,33 +9,19 @@
 {% endblock %}
 
 {% block main %}
-	<div class="container">
-		<h2 class="border-bottom text-center mb-3">Inicio</h2>
-		<div class="jumbotron" style="width: 80%; margin: auto;">
-		  <h1 class="display-5"><i class="fas fa-clipboard pr-3"></i></i>Asistencia</h1>
-		  <hr class="my-4">
-		  <p>Seleccione una clase y comience a tomar la asistencia de hoy.</p>
-		  <p class="lead">
-		    <a class="btn btn-primary" href="{{ url_for('asistencia')}}" role="button">Ir a la página</a>
-		  </p>
-		</div>
-		<hr class="my-4">
-		<div class="jumbotron" style="width: 80%; margin: auto;">
-		  <h1 class="display-5"><i class="fas fa-list-ul pr-3"></i>Lista de asistencia</h1>
-		  <hr class="my-4">
-		  <p>Seleccione una clase, un periodo de tiempo, y genere una lista de asistencia.</p>
-		  <p class="lead">
-		    <a class="btn btn-primary" href="{{ url_for('asistencia_lista')}}" role="button">Ir a la página</a>
-		  </p>
-		</div>
-		<hr class="my-4">
-		<div class="jumbotron" style="width: 80%; margin: auto;">
-		  <h1 class="display-5"><i class="fas fa-file-excel pr-3"></i>Exportar a Excel</h1>
-		  <hr class="my-4">
-		  <p>Exporte la asistencia de una o multiples clases.</p>
-		  <p class="lead">
-		    <a class="btn btn-primary" href="{{ url_for('exportar')}}" role="button">Ir a la página</a>
-		  </p>
-		</div>
+	<h2 class="border-bottom text-center mb-3">Inicio</h2>
+	<div class="d-flex justify-content-between align-items-center">
+		<h1 class="display-5"><i class="fas fa-clipboard pr-3"></i></i>Asistencia</h1>
+		<a class="btn btn-primary" href="{{ url_for('asistencia')}}" role="button">Ir a la página</a>
+	</div>
+	<hr class="my-4">
+	<div class="d-flex justify-content-between align-items-center">
+		<h1 class="display-5"><i class="fas fa-list-ul pr-3"></i>Lista de asistencia</h1>
+		<a class="btn btn-primary" href="{{ url_for('asistencia_lista')}}" role="button">Ir a la página</a>
+	</div>
+	<hr class="my-4">
+	<div class="d-flex justify-content-between align-items-center">
+		<h1 class="display-5"><i class="fas fa-file-excel pr-3"></i>Exportar a Excel</h1>
+		<a class="btn btn-primary" href="{{ url_for('exportar')}}" role="button">Ir a la página</a>
 	</div>
 {% endblock %}

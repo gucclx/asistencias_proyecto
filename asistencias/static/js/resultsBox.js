@@ -90,7 +90,6 @@ class ResultsBox
 		$(this.input_id).val("");
 		$(this.input_id).focus();
 		$(this.res_box_id).hide();
-		// $(div).insertBefore($(this.target_id).children().last());
 		$(this.target_id).append(div);
 		$(this.target_id).fadeIn("fast");
 	}

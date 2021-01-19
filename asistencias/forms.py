@@ -1,8 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import (StringField, SubmitField, SelectField, 
-					PasswordField, BooleanField, SelectMultipleField)
-
-from wtforms.validators import DataRequired, Length, Regexp, EqualTo
+from wtforms import BooleanField
+from wtforms import PasswordField
+from wtforms import StringField
+from wtforms import SubmitField
+from wtforms import SelectField
+from wtforms import SelectMultipleField
+from wtforms.validators import DataRequired
+from wtforms.validators import EqualTo
+from wtforms.validators import Length
+from wtforms.validators import Regexp
 
 nombre_invalido_persona = "Solo se permiten letras y espacios"
 persona_nombre_regex = "^[a-zA-Z ]+$"
@@ -16,11 +22,8 @@ len_invalida = f"""Mínimo de caracteres {min_len}, máximo {max_len}"""
 carnet_regex = "^[ ]*[a-zA-Z0-9]+$"
 carnet_invalido = "Solo se permiten letras y números"
 
-usuario_regex = "^[ ]*[a-z0-9-_]*[ ]*$"
+usuario_regex = "^[ ]*[a-zA-Z0-9-_]*[ ]*$"
 usuario_invalido = "Solo se permiten letras, numeros, guiones y guiones bajos"
-
-# # https://stackoverflow.com/a/19605207
-# pswd_regex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
 
 pswd_regex = "(.*[^ ]){6,}"
 pswd_invalida = "Al menos 6 caracteres y sin espacios"

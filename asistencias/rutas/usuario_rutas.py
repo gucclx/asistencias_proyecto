@@ -1,12 +1,15 @@
-from flask import (request, render_template, 
-					redirect, session, flash, url_for)
-from werkzeug.security import generate_password_hash, check_password_hash
-from asistencias.forms import ProfesorForm, CambiarDatosForm, \
-								persona_nombre_regex, len_regex, \
-								usuario_regex, CambiarPswdForm, NuevoProfesorForm, \
-								nombre_invalido_persona, len_invalida, \
-								usuario_invalido, pswd_invalida
+from flask import flash
+from flask import make_response
+from flask import request
+from flask import render_template
+from flask import redirect
+from flask import session
+from flask import url_for
 
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
+
+from asistencias.forms import *
 from wtforms.validators import Regexp
 from asistencias.helpers import *
 from asistencias import app
@@ -41,7 +44,6 @@ def administrar():
 			WHERE clase_id IN ({phs})"""
 
 	alumnos = db_ejecutar(q, *clases_id)
-
 
 	info = {
 		"usuario" : usuario,
@@ -103,8 +105,8 @@ def cambiar_dato():
 
 			db_ejecutar("""UPDATE Profesores 
 							SET usuario = (?)
-							WHERE id = (?)""", 
-							dato_nuevo, session["user_id"])
+							WHERE id = (?)""",
+							form.dato_nuevo.data.strip(), session["user_id"])
 
 		elif request.endpoint == "cambiar-nombre":
 			q = db_ejecutar("""SELECT nombre 

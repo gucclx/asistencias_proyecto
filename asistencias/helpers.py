@@ -7,7 +7,7 @@ DB_PATH = "./asistencias/asistencias.db"
 
 def login_requerido(f):
 
-	"""decora la ruta para requerir login"""
+	"""Decora la ruta para requerir login"""
 
 	@wraps(f)
 	def wrapper():
@@ -20,7 +20,7 @@ def login_requerido(f):
 
 def admin_requerido(f):
 
-	"""decora la ruta para requerir admin"""
+	"""Decora la ruta para requerir admin"""
 
 	@wraps(f)
 	def wrapper():
@@ -41,12 +41,12 @@ def admin_requerido(f):
 
 def es_admin(prof_id):
 
-	"""retorna 1 o 0 dependiendo del estado de admin
+	"""Retorna 1 o 0 dependiendo del estado de admin
 		del profesor especificado.
 
 		args:
 
-		prof_id -- entero. id del profesor
+		prof_id -- Entero. Id del profesor
 	"""
 
 	prof = db_ejecutar("""
@@ -60,26 +60,27 @@ def es_admin(prof_id):
 
 def db_ejecutar(query, *args, many=False):
 
-	"""ejecuta queries en la base de datos
+	"""Ejecuta queries en la base de datos.
 
 		args:
 
-		query -- la string query a ejecutar.
+		query -- La string query a ejecutar.
 
-		*args -- cualquier cantidad de argumentos. util para queries parametrizados
+		*args -- Cualquier cantidad de argumentos. Util para queries parametrizados
 
 		kwargs:
 
-		many (por defecto falso) -- determmina si se ejecutara el query multiples veces.
-		util para realizar varios inserts a la vez.
-		en caso de usar variables, *args debe ser una lista de tuplas/listas, 
-		con las variables requeridas para cada query
+		many (por defecto falso) -- Determina si se ejecutara el query multiples veces.
+																util para realizar varios inserts a la vez.
+																En caso de usar variables, *args debe ser una lista de tuplas/listas 
+																con las variables requeridas para cada query
 	"""
 
 	conn = None
 	filas = []
 	try:
 		conn = sqlite3.connect(DB_PATH)
+
 		# configurar sqlite3 para que devuelva diccionarios en cada query
 		conn.row_factory = sqlite3.Row
 		cur = conn.cursor()
@@ -92,31 +93,37 @@ def db_ejecutar(query, *args, many=False):
 
 		# convertir de row object a dict
 		filas = [dict(fila) for fila in cur.fetchall()]
+
 		cur.close()
+
 	except sqlite3.Error as e:
 		print(e)
 		raise Exception(e)
+
 	finally:
 		if conn:
 			conn.commit()
 			conn.close()
+
 		return filas
 
 def validar_clases(clases):
 
-	"""valida una lista de clases.
+	"""Valida una lista de clases.
 
-		args: lista de dicts(clases) con keys 'nombre', 'id'.
+		args: 
 
-		validaciones:
+		clases -- Lista de diccionarios (clases) con keys 'nombre', 'id'.
+
+		Validaciones:
 
 		1. El nombre debe ser string.
-		2. el id de la clase debe ser int y mayor que 0.
-		3. el nombre e id de la clase debe existir en la base de datos.
-		4. la clase le debe pertenecer al profesor, al menos que este sea admin.
+		2. El id de la clase debe ser int y mayor que 0.
+		3. El nombre e id de la clase debe existir en la base de datos.
+		4. La clase le debe pertenecer al profesor, al menos que este sea admin.
 
-		si alguna clase es invalida, se retorna una lista vacia
-		si no, se retorna la misma lista
+		Si alguna clase es invalida, se retorna una lista vacia.
+		Si no, se retorna la misma lista
 	"""
 	
 	clases_id = []
@@ -173,21 +180,20 @@ def validar_clases(clases):
 
 def generar_excel_wb(**kwargs):
 
-	"""genera y retorna un workbook usando openpyxl,
+	"""Genera y retorna un workbook usando openpyxl,
 		a partir de una lista de diccionarios.
 
 		keyword args:
 
-		titulos -- lista de strings, estas seran los 'titulos' o 
-					primeras columnas en la primera fila.
-					no requerido.
+		titulos -- Lista de strings, estas seran los 'titulos' o 
+								primeras columnas en la primera fila. No requerido.
 
-		keys -- lista de keys que se desean acceder en cada diccionario.
+		keys -- Lista de keys que se desean acceder en cada diccionario.
 
-		elementos -- lista de diccionarios.
+		elementos -- Lista de diccionarios.
 
-		cada fila en la hoja representa cada diccionario
-		cada columna en la fila representa cada key, en el orden que aparecen
+		Cada fila en la hoja representa cada diccionario.
+		Cada columna en la fila representa cada key, en el orden que aparecen.
 	"""
 
 	titulos = kwargs.get("titulos")

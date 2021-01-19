@@ -1,7 +1,11 @@
-from flask import request, redirect, session, jsonify
-from asistencias.helpers import login_requerido, db_ejecutar, \
-								es_admin
+from flask import request
+from flask import redirect
+from flask import session
+from flask import jsonify
 
+from asistencias.helpers import login_requerido
+from asistencias.helpers import db_ejecutar
+from asistencias.helpers import es_admin
 from asistencias.helpers_asistencia import *
 from asistencias import app
 from asistencias import csrf
@@ -109,7 +113,7 @@ def devolver_asistencia():
 
 			# usar un rango de tiempo
 			tiempos = fechas_a_unix(info["fecha_inicial"], info["fecha_final"])
-
+			
 			if not tiempos:
 				raise ValueError("Fecha(s) en formato incorrecto. formato: 'YYYY-MM-DD'")
 
